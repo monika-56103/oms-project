@@ -1,0 +1,100 @@
+    <!DOCTYPE html>
+    <html>
+    <head>
+        <title>OMS Dashboard</title>
+
+        <link rel="stylesheet" href="style.css">
+    </head>
+    
+    <body>
+
+<div class="main-content">
+
+    <style>
+body {
+    display: none;
+}
+</style>
+<script>
+if (localStorage.getItem("isLoggedIn") === "true") {
+    document.body.style.display = "block";
+} else {
+    window.location.href = "login.html";
+}
+</script>
+
+  <button id="logoutBtn">Logout</button>
+
+    <!-- HEADER -->
+    <div class="header">
+        <img src="logo.png.png" class="main-logo"> <!-- FIXED -->
+        <div class="title">Order Management System</div>
+    </div>
+
+    <h1>BOOST TRACK</h1>
+
+    <!-- DASHBOARD -->
+    <div class="dashboard">
+        <div class="card">Total Orders<br><span id="totalOrders"></span></div>
+        <div class="card">Pending<br><span id="pendingOrders"></span></div>
+        <div class="card">Delivered<br><span id="deliveredOrders"></span></div>
+        <div class="card">Revenue<br>₹<span id="revenue"></span></div>
+    </div>
+
+    <!-- ADD ORDER -->
+    <div class="add-order">
+        <input type="text" id="billNo" placeholder="Bill / PI No.">
+        <input type="text" id="name" placeholder="Customer Name">
+        <input type="text" id="phone" placeholder="Phone">
+        <input type="text" id="product" placeholder="Product">
+        <input type="number" id="price" placeholder="Price">
+        <button onclick="addOrder()">Add Order</button>
+    </div>
+
+    <!-- SEARCH + FILTER -->
+    <div class="controls">
+        <input type="text" id="search" placeholder="Search Order ID">
+
+        <select id="statusFilter">
+            <option value="">All</option>
+            <option>Upcoming</option>
+            <option>Confirmed</option>
+            <option>Ready To Dispatch</option>
+            <option>In Transit</option>
+            <option>Delivered</option>
+        </select>
+    </div>
+
+    <!-- TABLE -->
+    <table>
+        <thead>
+            <tr>
+                <th>Bill No</th> <!-- NEW COLUMN -->
+                <th>Customer</th>
+                <th>Status</th>
+                <th id="extraHeader"></th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody id="orderTable"></tbody>
+    </table>
+
+    <!-- POPUP -->
+    <div id="popup" class="popup">
+        <div class="popup-content">
+            <span onclick="closePopup()" class="close">&times;</span>
+            <h2>Customer Details</h2>
+            <div id="popupData"></div>
+        </div>
+    </div>
+
+    <div class="sidebar">
+    <button onclick="window.location.href='dashboard.html'">Dashboard</button>
+    <button onclick="window.location.href='payment.html'">Payment Overview</button>
+</div>
+
+    <!-- SCRIPT ALWAYS LAST -->
+    <script type="module" src="script.js"></script>
+
+    </body>
+    </html>

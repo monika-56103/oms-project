@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Track Your Order</title>
+    <style>
+        body {
+            font-family: Arial;
+            text-align: center;
+            background: #f5f7fa;
+        }
+
+        .box {
+            background: white;
+            padding: 30px;
+            margin: 50px auto;
+            width: 300px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+
+        input {
+            padding: 10px;
+            width: 90%;
+            margin: 10px 0;
+        }
+
+        button {
+            padding: 10px;
+            width: 100%;
+            background: #007bff;
+            color: white;
+            border: none;
+        }
+
+        .result {
+            margin-top: 20px;
+            text-align: left;
+        }
+    </style>
+</head>
+<body>
+
+<h2>Track Your Order</h2>
+
+<div class="box">
+    <input type="number" id="billNo" placeholder="Enter Bill No">
+    <button onclick="trackOrder()">Track</button>
+
+    <div class="result" id="result"></div>
+</div>
+
+<script type="module">
+
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.11.0/firebase-app.js";
+import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/12.11.0/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyBJgUWYAB0XLRuecLGs_urw38Rx8E-uD98",
+  authDomain: "iboostup-orders.firebaseapp.com",
+  projectId: "iboostup-orders",
+  storageBucket: "iboostup-orders.firebasestorage.app",
+  messagingSenderId: "942346831712",
+  appId: "1:942346831712:web:43dacb7c568c9f25264005"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
+window.trackOrder = async function() {
+
+    let billNo = document.getElementById("billNo").value;
+
+    if (!billNo) {
+        alert("Enter Bill No");
+        return;
+    }
+
+    let resultDiv = document.getElementById("result");
+    resultDiv.innerHTML = "Searching...";
+
+    const querySnapshot = await getDocs(collection(db, "orders"));
+
+    let found = false;
+
+    querySnapshot.forEach((doc) => {
+        let data = doc.data();
+
+        if (data.id == billNo) {
+            found = true;
+
+            resultDiv.innerHTML = `
+                <p><b>Status:</b> ${data.status}</p>
+                <p><b>Product:</b> ${data.product}</p>
+                <p><b>Price:</b> ₹${data.price}</p>
+                <p><b>Tracking ID:</b> ${data.trackingId || "Not Available"}</p>
+            `;
+        }
+    });
+
+    if (!found) {
+        resultDiv.innerHTML = "❌ Order not found";
+    }
+};
+
+</script>
+
+</body>
+</html>
+

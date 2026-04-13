@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Admin Login</title>
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    if (localStorage.getItem("isLoggedIn") === "true") {
+        window.location.href = "dashboard.html";
+    }
+});
+</script>
+    <style>
+        body {
+            font-family: Arial;
+            text-align: center;
+            background: #f5f7fa;
+        }
+
+        .box {
+            background: white;
+            padding: 30px;
+            margin: 100px auto;
+            width: 300px;
+            border-radius: 10px;
+        }
+
+        input {
+            padding: 10px;
+            width: 90%;
+            margin: 10px 0;
+        }
+
+        button {
+            padding: 10px;
+            width: 100%;
+            background: #28a745;
+            color: white;
+            border: none;
+        }
+    </style>
+</head>
+<body>
+
+<h2>Admin Login</h2>
+
+<div class="box">
+    <input type="text" id="username" placeholder="Username">
+    <input type="password" id="password" placeholder="Password">
+    <button onclick="login()">Login</button>
+</div>
+
+<script>
+function login() {
+    let user = document.getElementById("username").value;
+    let pass = document.getElementById("password").value;
+
+    if (user === "admin" && pass === "1234") {
+        localStorage.setItem("isLoggedIn", "true");
+        window.location.href = "dashboard.html"; // ✅ FIX
+    } else {
+        alert("Invalid Login");
+    }
+}
+</script>
+
+</body>
+</html>
